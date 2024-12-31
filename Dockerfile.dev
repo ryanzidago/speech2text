@@ -1,0 +1,23 @@
+ARG ELIXIR_VERSION=1.18.1
+ARG OTP_VERSION=27.2
+ARG DEBIAN_VERSION=bullseye-20241223-slim
+
+FROM hexpm/elixir:${ELIXIR_VERSION}-erlang-${OTP_VERSION}-debian-${DEBIAN_VERSION}
+
+# Install build dependencies including inotify-tools for live reload
+RUN apt-get update -y && \
+    apt-get install -y build-essential git inotify-tools postgresql-client && \
+    apt-get clean && rm -f /var/lib/apt/lists/*_*
+
+WORKDIR /app
+
+# Install hex + rebar
+RUN mix local.hex --force && \
+    mix local.rebar --force
+
+ENV MIX_ENV=dev
+
+COPY bin/dev_entrypoint.sh /app/bin/dev_entrypoint.sh
+RUN chmod +x /app/bin/dev_entrypoint.sh
+
+CMD ["/app/bin/dev_entrypoint.sh"]
