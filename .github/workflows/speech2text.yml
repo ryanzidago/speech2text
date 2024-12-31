@@ -35,7 +35,22 @@ jobs:
           elixir-version: ${{ env.ELIXIR_VERSION }}
           otp-version: ${{ env.OTP_VERSION }}
 
+      - name: Cache Mix Dependencies
+        id: cache-mix-dependencies
+        uses: actions/cache@v4.2.0
+        with:
+          path: |
+            deps
+            _build
+          # https://github.com/marketplace/actions/cache#creating-a-cache-key
+          # https://github.com/actions/cache/blob/main/examples.md#elixir---mix
+          key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock')}}
+          restore-keys: |
+            ${{ runner.os }}-mix-
+
       - name: Install Dependencies
+        # https://github.com/marketplace/actions/cache#skipping-steps-based-on-cache-hit
+        if: steps.cache-mix-dependencies.cache-hit != 'true'
         run: mix deps.get
 
       - name: Compile
@@ -66,7 +81,20 @@ jobs:
           elixir-version: ${{ env.ELIXIR_VERSION }}
           otp-version: ${{ env.OTP_VERSION }}
 
+      # Add cache configuration for test job
+      - name: Cache Mix Dependencies
+        id: cache-mix-dependencies
+        uses: actions/cache@v4.2.0
+        with:
+          path: |
+            deps
+            _build
+          key: ${{ runner.os }}-mix-${{ hashFiles('**/mix.lock')}}
+          restore-keys: |
+            ${{ runner.os }}-mix-
+
       - name: Install Dependencies
+        if: steps.cache-mix-dependencies.cache-hit != 'true'
         run: mix deps.get
 
       - name: Run Tests
