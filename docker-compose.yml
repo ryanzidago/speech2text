@@ -29,5 +29,18 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
 
+  cli:
+    build:
+      context: ./cli
+      dockerfile: Dockerfile.dev
+    environment:
+        - GCP_PROJECT_ID=$GCP_PROJECT_ID
+        - GCP_REGION=$GCP_REGION
+    volumes:
+      - ./cli:/cli
+      - ~/.config/gcloud:/root/.config/gcloud
+    stdin_open: true
+    tty: true
+
 volumes:
   pgdata:

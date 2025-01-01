@@ -9,6 +9,10 @@ on:
 env:
   ELIXIR_VERSION: "1.18.1-otp-27"
   OTP_VERSION: "27.2"
+  SERVICE: "speech2text"
+  GAR_LOCATION: "europe-west2"
+  REGION: "europe-west2"
+  GCP_PROJECT_ID: ${{ secrets.PROJECT_ID }}
 
 jobs:
   build:
@@ -99,3 +103,49 @@ jobs:
 
       - name: Run Tests
         run: mix test
+
+  deploy:
+    name: Deploy to Google Cloud Run
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Google Auth
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.WIF_PROVIDER }}
+          service_account: ${{ secrets.WIF_SERVICE_ACCOUNT }}
+
+      - name: Setup Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v2
+
+      - name: Docker auth
+        run: |-
+          gcloud auth configure-docker ${{ env.GAR_LOCATION }}-docker.pkg.dev
+
+      - name: Build and Push Docker Image
+        run: |-
+          docker build -t "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID}}/${{env.SERVICE}}:${{github.sha}}" ./
+          docker push "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID}}/${{env.SERVICE}}:${{github.sha}}"
+
+      - name: Deploy to Cloud Run
+        uses: google-github-actions/deploy-cloudrun@v2
+        with:
+          service: ${{env.SERVICE}}
+          region: ${{env.REGION}}
+          image: "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID}}/${{env.SERVICE}}:${{github.sha}}"
+          env_vars: |
+            SECRET_KEY_BASE=${{ secrets.SECRET_KEY_BASE }}
+            DATABASE_URL=${{ secrets.DATABASE_URL }}
+            PHX_HOST=${{ secrets.PHX_HOST }}
+            GOOGLE_CLOUD_RUN=true
+
+      - name: Show Output
+        run: echo ${{ steps.deploy.outputs.url }}

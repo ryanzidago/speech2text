@@ -114,4 +114,18 @@ if config_env() == :prod do
   #     config :swoosh, :api_client, Swoosh.ApiClient.Hackney
   #
   # See https://hexdocs.pm/swoosh/Swoosh.html#module-installation for details.
+  google_cloud_run =
+    "GOOGLE_CLOUD_RUN"
+    |> System.get_env("false")
+    |> String.to_existing_atom()
+
+  if google_cloud_run do
+    port = System.get_env("PORT", "8080")
+
+    config :speech2text, Speech2textWeb.Endpoint,
+      http: [port: String.to_integer(port)],
+      url: [scheme: "http", host: System.get_env("PHX_HOST"), port: 443],
+      server: true,
+      secret_key_base: System.get_env("SECRET_KEY_BASE")
+  end
 end
