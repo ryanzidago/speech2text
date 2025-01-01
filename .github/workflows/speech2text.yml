@@ -133,6 +133,7 @@ jobs:
       - name: Docker auth
         run: |-
           gcloud auth configure-docker ${{ env.GAR_LOCATION }}-docker.pkg.dev
+          gcloud auth print-access-token | docker login -u oauth2accesstoken --password-stdin ${{ env.GAR_LOCATION }}-docker.pkg.dev
 
       - name: Build and Push Docker Image
         run: |-

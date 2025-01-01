@@ -1,0 +1,1 @@
+gcloud services enable iamcredentials.googleapis.com --project=speech2text-446412
