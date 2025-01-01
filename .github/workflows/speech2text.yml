@@ -121,8 +121,10 @@ jobs:
       - name: Google Auth
         uses: google-github-actions/auth@v2
         with:
-          workload_identity_provider: ${{ secrets.WIF_PROVIDER }}
-          service_account: ${{ secrets.WIF_SERVICE_ACCOUNT }}
+          workload_identity_provider: "projects/486073635759/locations/global/workloadIdentityPools/github-actions/providers/github-actions"
+          service_account: "github-actions-deployer@speech2text-446412.iam.gserviceaccount.com"
+          # workload_identity_provider: ${{ secrets.WIF_PROVIDER }}
+          # service_account: ${{ secrets.WIF_SERVICE_ACCOUNT }}
           token_format: "access_token"
 
       - name: Setup Google Cloud SDK
