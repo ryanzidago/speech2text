@@ -50,7 +50,7 @@ jobs:
 
       - name: Install Dependencies
         # https://github.com/marketplace/actions/cache#skipping-steps-based-on-cache-hit
-        if: steps.cache-mix-dependencies.cache-hit != 'true'
+        if: steps.cache-mix-dependencies.outputs.cache-hit != 'true'
         run: mix deps.get
 
       - name: Compile
@@ -94,7 +94,7 @@ jobs:
             ${{ runner.os }}-mix-
 
       - name: Install Dependencies
-        if: steps.cache-mix-dependencies.cache-hit != 'true'
+        if: steps.cache-mix-dependencies.outputs.cache-hit != 'true'
         run: mix deps.get
 
       - name: Run Tests
