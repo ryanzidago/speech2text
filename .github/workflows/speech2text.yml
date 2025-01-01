@@ -140,12 +140,17 @@ jobs:
           docker build -t "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID}}/${{env.SERVICE}}:${{github.sha}}" ./
           docker push "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID}}/${{env.SERVICE}}:${{github.sha}}"
 
+      - name: Debug Docker Image name
+        run: |-
+          IMAGE_NAME="${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.SERVICE }}:${{ github.sha }}"
+          echo "Building and pushing image: ${IMAGE_NAME}"
+
       - name: Deploy to Cloud Run
         uses: google-github-actions/deploy-cloudrun@v2
         with:
-          service: ${{env.SERVICE}}
-          region: ${{env.REGION}}
-          image: "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID}}/${{env.SERVICE}}:${{github.sha}}"
+          service: ${{ env.SERVICE }}
+          region: ${{ env.REGION }}
+          image: "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.SERVICE }}:${{ github.sha }}"
           env_vars: |
             SECRET_KEY_BASE=${{ secrets.SECRET_KEY_BASE }}
             DATABASE_URL=${{ secrets.DATABASE_URL }}
