@@ -1,0 +1,1 @@
+gcloud run services set-iam-policy speech2text --region=europe-west2 policy.yaml

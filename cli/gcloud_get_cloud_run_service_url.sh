@@ -1,0 +1,1 @@
+gcloud run services describe speech2text --region europe-west2 --format='value(status.url)'
