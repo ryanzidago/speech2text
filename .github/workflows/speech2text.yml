@@ -155,7 +155,7 @@ jobs:
           image: "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.SERVICE }}/${{ env.SERVICE }}:${{ github.sha }}"
           env_vars: |
             SECRET_KEY_BASE=xcTiCM6ApbGwjBU76LdRc+CIDQ3YNMu/5n4s4W5J9BNeR6oZBwi/YtGnQFwThGJQ
-            DATABASE_URL=${{ secrets.DATABASE_URL }}
+            DATABASE_URL=postgresql://postgres:WGA46Hfe+nWjcqwdNsmjH7ZvkSxeyyvIckf0b4z3j1Q=@/speech2text-prod?host=/cloudsql/speech2text-446412:europe-west2:speech2text-db
             PHX_HOST=https://speech2text-486073635759.europe-west2.run.app
             PHX_SERVER=true
             GOOGLE_CLOUD_RUN=true
