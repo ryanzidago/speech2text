@@ -161,6 +161,7 @@ jobs:
             GOOGLE_CLOUD_RUN=true
           flags: |
             --set-cloudsql-instances=speech2text-446412:europe-west2:speech2text-db
+            --execution-environment=gen2
 
       - name: Show Output
         run: echo ${{ steps.deploy.outputs.url }}
