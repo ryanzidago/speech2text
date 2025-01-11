@@ -13,7 +13,6 @@ env:
   GAR_LOCATION: "europe-west2"
   REGION: "europe-west2"
   GCP_PROJECT_ID: "speech2text-446412"
-  # GCP_PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
 
 jobs:
   build:
@@ -160,7 +159,7 @@ jobs:
             PHX_HOST=${{ secrets.PHX_HOST }}
             GOOGLE_CLOUD_RUN=true
           flags: |
-            --set-cloudsql-instances=speech2text-446412:europe-west2:speech2text-db
+            --add-cloudsql-instances=speech2text-446412:europe-west2:speech2text-db
             --execution-environment=gen2
 
       - name: Show Output
