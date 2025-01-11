@@ -157,6 +157,7 @@ jobs:
             SECRET_KEY_BASE=xcTiCM6ApbGwjBU76LdRc+CIDQ3YNMu/5n4s4W5J9BNeR6oZBwi/YtGnQFwThGJQ
             DATABASE_URL=${{ secrets.DATABASE_URL }}
             PHX_HOST=https://speech2text-486073635759.europe-west2.run.app
+            PHX_SERVER="true"
             GOOGLE_CLOUD_RUN=true
           flags: |
             --add-cloudsql-instances=speech2text-446412:europe-west2:speech2text-db
