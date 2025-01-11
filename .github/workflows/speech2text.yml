@@ -159,6 +159,8 @@ jobs:
             DATABASE_URL=${{ secrets.DATABASE_URL }}
             PHX_HOST=${{ secrets.PHX_HOST }}
             GOOGLE_CLOUD_RUN=true
+          flags: |
+            --set-cloudsql-instances=speech2text-446412:europe-west2:speech2text-db
 
       - name: Show Output
         run: echo ${{ steps.deploy.outputs.url }}
