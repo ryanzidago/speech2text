@@ -32,10 +32,12 @@ if config_env() == :prod do
 
   config :speech2text, Speech2text.Repo,
     # ssl: true,
-    url: database_url,
-    pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
+    username: "postgres",
+    password: "WGA46Hfe+nWjcqwdNsmjH7ZvkSxeyyvIckf0b4z3j1Q="
     socket_options: maybe_ipv6,
-    socket: System.get_env("DB_SOCKET")
+    socket_dir: "/cloudsql",
+    database: "speech2text_prod",
+    pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
     # socket_dir: System.get_env("SOCKET_DIR"),
     # hostname: System.get_env("DB_HOSTNAME"),
 
