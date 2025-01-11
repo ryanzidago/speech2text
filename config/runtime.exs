@@ -37,7 +37,7 @@ if config_env() == :prod do
     socket_options: maybe_ipv6,
     socket_dir: "/cloudsql",
     database: "speech2text_prod",
-    pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
+    pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10")
     # socket_dir: System.get_env("SOCKET_DIR"),
     # hostname: System.get_env("DB_HOSTNAME"),
 
