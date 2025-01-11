@@ -35,8 +35,9 @@ if config_env() == :prod do
     url: database_url,
     pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
     socket_options: maybe_ipv6,
-    socket_dir: System.get_env("SOCKET_DIR"),
-    hostname: System.get_env("DB_HOSTNAME")
+    socket: System.get_env("DB_SOCKET"),
+    # socket_dir: System.get_env("SOCKET_DIR"),
+    # hostname: System.get_env("DB_HOSTNAME"),
 
   # The secret key base is used to sign/encrypt cookies and other secrets.
   # A default value is used in config/dev.exs and config/test.exs but you
