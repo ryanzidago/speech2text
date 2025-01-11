@@ -35,7 +35,7 @@ if config_env() == :prod do
     url: database_url,
     pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
     socket_options: maybe_ipv6,
-    socket: System.get_env("DB_SOCKET"),
+    socket: System.get_env("DB_SOCKET")
     # socket_dir: System.get_env("SOCKET_DIR"),
     # hostname: System.get_env("DB_HOSTNAME"),
 
