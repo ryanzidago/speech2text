@@ -159,7 +159,8 @@ jobs:
             PHX_HOST=https://speech2text-486073635759.europe-west2.run.app
             PHX_SERVER=true
             GOOGLE_CLOUD_RUN=true
-            SOCKET_DIR="/cloudsql"
+            SOCKET_DIR=/cloudsql
+            DB_HOSTNAME=speech2text-446412:europe-west2:speech2text-db
           flags: |
             --add-cloudsql-instances=speech2text-446412:europe-west2:speech2text-db
             --execution-environment=gen2
